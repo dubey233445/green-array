@@ -1,22 +1,35 @@
 "use client";
+import { useRouter } from 'next/navigation'
 import { useState } from "react";
 
 export default function SignupForm() {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [message, setMessage] = useState("");
+   const router = useRouter()
+
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-
+      
     const res = await fetch("/api/signup", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ username, password }),
     });
+    
 
-    const data = await res.json();
-    setMessage(data.message || data.error);
+     const data = await res.json();
+
+    if (res.ok) {
+      setMessage("✅ Signup successful! Redirecting...");
+    
+      setTimeout(() => {
+        router.push("/signin"); // redirect to login page
+      }, 1500);
+    } else {
+      setMessage(data.error);
+    }
   };
 
   return (
@@ -34,7 +47,7 @@ export default function SignupForm() {
           placeholder="Username"
           value={username}
           onChange={(e) => setUsername(e.target.value)}
-          className="w-full p-3 mb-4 border rounded-lg focus:outline-none focus:ring-2 focus:ring-green-600"
+          className="w-full p-3 mb-4 border rounded-lg text-black  placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-green-600"
           required
         />
 
@@ -43,7 +56,7 @@ export default function SignupForm() {
           placeholder="Password"
           value={password}
           onChange={(e) => setPassword(e.target.value)}
-          className="w-full p-3 mb-4 border rounded-lg focus:outline-none focus:ring-2 focus:ring-green-600"
+          className="w-full p-3 mb-4 border rounded-lg text-black  placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-green-600"
           required
         />
 

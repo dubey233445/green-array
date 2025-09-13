@@ -2,6 +2,8 @@
 import Image from "next/image";
 import { FormEvent } from "react";
 import Header from "./components/header";
+import Navbar from "./components/Navbar";
+import PlantListComp from "./components/PlantList";
 
 export default function Home() {
   const handleSubmit = (e: FormEvent) => {
@@ -15,21 +17,7 @@ export default function Home() {
       <Header/>
       
 
-      {/* Navbar */}
-      <nav className="bg-green-600 flex justify-center gap-6 py-3">
-        <a href="#home" className="text-white font-semibold hover:underline">
-          Home
-        </a>
-        <a href="#products" className="text-white font-semibold hover:underline">
-          Plants
-        </a>
-        <a href="#guidance" className="text-white font-semibold hover:underline">
-          Guidance
-        </a>
-        <a href="#contact" className="text-white font-semibold hover:underline">
-          Contact
-        </a>
-      </nav>
+     <Navbar/>
 
       {/* Home Section */}
       <section id="home" className="p-6 text-center">
@@ -42,53 +30,7 @@ export default function Home() {
       </section>
 
       {/* Products Section */}
-      <section id="products" className="p-6">
-        <h2 className="text-3xl font-bold mb-6 text-center">Top 5 Plants</h2>
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-          {[
-            {
-              img: "/monestra.webp",
-              title: "Monstera",
-              desc: "Air-purifying, beautiful split leaves. Great for indoors.",
-            },
-            {
-              img: "/japanesemapple.webp",
-              title: "Japanese Maple",
-              desc: "Stunning red foliage. Prefers partial sunlight.",
-            },
-            {
-              img: "/birdofparadise.jpeg",
-              title: "Bird of Paradise",
-              desc: "Bright tropical flower. Needs good sunlight.",
-            },
-            {
-              img: "/fiddleleaf.jpeg",
-              title: "Fiddle Leaf Fig",
-              desc: "Modern houseplant. Requires weekly watering.",
-            },
-            {
-              img: "/guaiacum_officinale_flowers_2.jpg",
-              title: "Guiacism",
-              desc: "Rare medicinal plant with unique leaf structure.",
-            },
-          ].map((plant, idx) => (
-            <div
-              key={idx}
-              className="bg-green-100 p-4 rounded-lg text-center shadow-md hover:shadow-lg transition"
-            >
-              <Image
-                src={plant.img}
-                alt={plant.title}
-                width={400}
-                height={200}
-                className="rounded-lg object-cover h-48 w-full"
-              />
-              <h3 className="text-xl font-semibold mt-3">{plant.title}</h3>
-              <p className="text-sm mt-1">{plant.desc}</p>
-            </div>
-          ))}
-        </div>
-      </section>
+      <PlantListComp></PlantListComp>
 
       {/* Guidance Section */}
       <section id="guidance" className="p-6 bg-green-100">

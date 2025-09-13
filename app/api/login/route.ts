@@ -29,6 +29,14 @@ export async function POST(req: Request) {
       process.env.JWT_SECRET as string,
       { expiresIn: "1h" }
     );
+     const res = NextResponse.json({ success: true, username: user.username });
+    res.cookies.set("token", token, {
+      httpOnly: false, // ✅ allow frontend to read
+      secure: process.env.NODE_ENV === "production",
+      sameSite: "strict",
+      path: "/",
+      maxAge: 60 * 60,
+    });
 
     return NextResponse.json({ message: "Login successful", token }, { status: 200 });
   } catch (error) {

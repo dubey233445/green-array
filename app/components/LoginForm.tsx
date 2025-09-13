@@ -1,10 +1,12 @@
 "use client";
 import { useState } from "react";
+import { useRouter } from 'next/navigation'
 
 export default function LoginForm() {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [message, setMessage] = useState("");
+  const router = useRouter();
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -14,11 +16,16 @@ export default function LoginForm() {
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ username, password }),
     });
-
+    
     const data = await res.json();
+    const headers = new Headers()
+     headers.set("token", data.token);
     if (res.ok) {
       setMessage("✅ Login Successful!");
       localStorage.setItem("token", data.token); // save token
+       setTimeout(() => {
+        router.push("/"); // redirect to login page
+      }, 1500);
     } else {
       setMessage(data.error);
     }
@@ -39,7 +46,7 @@ export default function LoginForm() {
           placeholder="Username"
           value={username}
           onChange={(e) => setUsername(e.target.value)}
-          className="w-full p-3 mb-4 border rounded-lg focus:outline-none focus:ring-2 focus:ring-green-600"
+          className="w-full p-3 mb-4 border rounded-lg focus:outline-none text-black focus:ring-2 focus:ring-green-600 placeholder-gray-500"
           required
         />
 
@@ -48,7 +55,7 @@ export default function LoginForm() {
           placeholder="Password"
           value={password}
           onChange={(e) => setPassword(e.target.value)}
-          className="w-full p-3 mb-4 border rounded-lg focus:outline-none focus:ring-2 focus:ring-green-600"
+          className="w-full p-3 mb-4 border rounded-lg text-black focus:outline-none  placeholder-gray-500 focus:ring-2 focus:ring-green-600"
           required
         />
 
