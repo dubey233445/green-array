@@ -29,12 +29,15 @@ export async function POST(req: NextRequest) {
       process.env.JWT_SECRET as string,
       { expiresIn: "1h" }
     );
-     const res = NextResponse.json({ success: true, username: user.username });
+     
     req.headers.set("token", token);
   
 
     return NextResponse.json({ message: "Login successful", token }, { status: 200 });
-  } catch (error) {
-    return NextResponse.json({ error: "Internal Server Error" }, { status: 500 });
+  } catch (err) {
+    if(err){
+
+      return NextResponse.json({ error: "Internal Server Error" }, { status: 500 });
+    }
   }
 }
