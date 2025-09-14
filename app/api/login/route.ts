@@ -1,10 +1,10 @@
-import { NextRequest, NextResponse } from "next/server";
+import { NextResponse } from "next/server";
 import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
 import User from "@/models/User";
 import { connectDB } from "@/lib/db";
 
-export async function POST(req: NextRequest) {
+export async function POST(req: Request) {
   try {
     const { username, password } = await req.json();
 
@@ -29,12 +29,8 @@ export async function POST(req: NextRequest) {
       process.env.JWT_SECRET as string,
       { expiresIn: "1h" }
     );
-     const res = NextResponse.json({ success: true, username: user.username });
-    // console.log(token);
-    
+    //  const res = NextResponse.json({ success: true, username: user.username });
     req.headers.set("token", token);
-    // console.log(req.headers.get("token"));
-    
 
     return NextResponse.json({ message: "Login successful", token }, { status: 200 });
   } catch (error) {
