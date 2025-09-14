@@ -1,8 +1,8 @@
-import { NextResponse } from "next/server";
+import { NextRequest, NextResponse } from "next/server";
 import { connectDB } from "@/lib/db";
 import Plant from "@/models/Plants";
 
-export async function POST(req: Request) {
+export async function POST(req: NextRequest) {
   try {
     const { name, description, price } = await req.json();
 
