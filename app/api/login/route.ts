@@ -31,6 +31,10 @@ export async function POST(req: NextRequest) {
     );
      
     req.headers.set("token", token);
+    console.log(
+      req.headers.get("token")
+
+    );
   
 
     return NextResponse.json({ message: "Login successful", token }, { status: 200 });

@@ -4,6 +4,7 @@ export interface IPlant extends Document {
   name: string;
   description: string;
   price: number;
+  image:string,
   seller:{
     type:ObjectId,
     ref:string,

@@ -1,9 +1,19 @@
 import { NextResponse } from "next/server";
+import { headers } from 'next/headers'
 import type { NextRequest } from "next/server";
 import jwt from "jsonwebtoken";
 
-export default function middleware(req: NextRequest) {
-  const token = req.headers.get("token");
+export default async function middleware(req: NextRequest) {
+
+
+    const allHeaders = await headers();
+    allHeaders.get("token")
+    
+    console.log(allHeaders,"All Headers");
+    
+
+  // Get a specific header by its name
+  const token = req.headers.get('token');
   // .get("token")?.value;
   console.log(token);
   

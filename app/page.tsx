@@ -2,7 +2,7 @@
 import { FormEvent } from "react";
 import Header from "./components/header";
 import Navbar from "./components/Navbar";
-import PlantListComp from "./components/PlantList";
+import PlantShowcase from "./components/Products";
 
 export default function Home() {
   const handleSubmit = (e: FormEvent) => {
@@ -29,7 +29,7 @@ export default function Home() {
       </section>
 
       {/* Products Section */}
-      <PlantListComp></PlantListComp>
+      <PlantShowcase/>
 
       {/* Guidance Section */}
       <section id="guidance" className="p-6 bg-green-100">

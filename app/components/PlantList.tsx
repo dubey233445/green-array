@@ -15,7 +15,7 @@ export default function PlantListComp() {
 
   useEffect(() => {
     const fetchPlants = async () => {
-      const res = await fetch("/api/plants/list");
+      const res = await fetch("/plants/list");
       const data = await res.json();
       setPlants(data);
       setLoading(false);

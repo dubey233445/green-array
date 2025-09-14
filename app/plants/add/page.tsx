@@ -7,25 +7,32 @@ export default function AddPlantPage() {
   const [price, setPrice] = useState<number | "">("");
   const [message, setMessage] = useState("");
 
+
   const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
+  e.preventDefault();
+  const token = localStorage.getItem("token");
+  console.log(token?"token":"not avai");
+  
 
-    const res = await fetch("/plants/add", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ name, description, price }),
-    });
+  const res = await fetch("/plants/add", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      token: token ? `${token}` : "", // send token if available
+    },
+    body: JSON.stringify({ name, description, price }),
+  });
 
-    const data = await res.json();
-    if (res.ok) {
-      setMessage("✅ Plant added successfully!");
-      setName("");
-      setDescription("");
-      setPrice("");
-    } else {
-      setMessage(data.error);
-    }
-  };
+  const data = await res.json();
+  if (res.ok) {
+    setMessage("✅ Plant added successfully!");
+    setName("");
+    setDescription("");
+    setPrice("");
+  } else {
+    setMessage(data.error);
+  }
+};
 
   return (
     <div className="flex justify-center items-center min-h-screen bg-green-50">
@@ -38,31 +45,32 @@ export default function AddPlantPage() {
         </h2>
 
         <input
-          type="text"
-          placeholder="Plant Name"
-          value={name}
-          onChange={(e) => setName(e.target.value)}
-          className="w-full p-3 mb-4 border rounded-lg focus:outline-none focus:ring-2 focus:ring-green-600"
-          required
-        />
+  type="text"
+  placeholder="Plant Name"
+  value={name}
+  onChange={(e) => setName(e.target.value)}
+  className="w-full p-3 mb-4 border rounded-lg focus:outline-none focus:ring-2 focus:ring-green-600 placeholder-gray-700 text-gray-800"
+  required
+/>
 
-        <textarea
-          placeholder="Plant Description"
-          value={description}
-          onChange={(e) => setDescription(e.target.value)}
-          rows={3}
-          className="w-full p-3 mb-4 border rounded-lg focus:outline-none focus:ring-2 focus:ring-green-600"
-          required
-        />
+<textarea
+  placeholder="Plant Description"
+  value={description}
+  onChange={(e) => setDescription(e.target.value)}
+  rows={3}
+  className="w-full p-3 mb-4 border rounded-lg focus:outline-none focus:ring-2 focus:ring-green-600 placeholder-gray-700 text-gray-800"
+  required
+/>
 
-        <input
-          type="number"
-          placeholder="Price (₹)"
-          value={price}
-          onChange={(e) => setPrice(Number(e.target.value))}
-          className="w-full p-3 mb-4 border rounded-lg focus:outline-none focus:ring-2 focus:ring-green-600"
-          required
-        />
+<input
+  type="number"
+  placeholder="Price (₹)"
+  value={price}
+  onChange={(e) => setPrice(Number(e.target.value))}
+  className="w-full p-3 mb-4 border rounded-lg focus:outline-none focus:ring-2 focus:ring-green-600 placeholder-gray-700 text-gray-800"
+  required
+/>
+
 
         <button
           type="submit"
