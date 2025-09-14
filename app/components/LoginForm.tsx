@@ -33,8 +33,7 @@ export default function LoginForm() {
 
   return (
     <div className="flex justify-center items-center min-h-screen bg-green-50">
-      <form
-        onSubmit={handleSubmit}
+      <form onSubmit={handleSubmit}
         className="bg-white shadow-md rounded-lg p-8 w-full max-w-md border border-green-200"
       >
         <h2 className="text-2xl font-bold text-green-800 mb-6 text-center">

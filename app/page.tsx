@@ -1,5 +1,4 @@
 "use client";
-import Image from "next/image";
 import { FormEvent } from "react";
 import Header from "./components/header";
 import Navbar from "./components/Navbar";
