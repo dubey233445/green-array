@@ -10,7 +10,7 @@ export default function AddPlantPage() {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
-    const res = await fetch("/plants/add", {
+    const res = await fetch("/api/plants/add", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ name, description, price }),
