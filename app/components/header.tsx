@@ -92,7 +92,7 @@ export default function Header() {
                   View Cart
                 </Link>
                 <Link
-                  href="/public/add"
+                  href="/api/plants/add"
                   className="block px-4 py-2 hover:bg-gray-100"
                   onClick={() => setDropdownOpen(false)}
                 >
