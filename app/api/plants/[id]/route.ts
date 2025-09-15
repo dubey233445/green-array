@@ -1,16 +1,35 @@
-import { NextResponse } from "next/server";
-import { connectDB } from "./../../../../lib/db";
-import Plant from "./../../../../models/Plants";
+import { NextRequest, NextResponse } from "next/server";
+
+interface PlantAPIResponse {
+  id: number;
+  common_name: string | null;
+  scientific_name: string;
+  family_common_name?: string | null;
+  image_url: string | null;
+}
 
 export async function GET(
-  req: Request,
-  { params }: { params: Promise<{ id: string }> }
+  request: NextRequest,
+  { params }: { params: { id: string } }
 ) {
-  await connectDB();
-  const user = (await params).id;
-  const plant = await Plant.findById(user);
-  if (!plant) {
-    return NextResponse.json({ error: "Plant not found" }, { status: 404 });
+  const { id } = params; // ✅ now we will use it
+
+  try {
+    const response = await fetch(
+      `https://trefle.io/api/v1/plants/${id}?token=Xkai9qe3CnSMsosihbGvPKCKxPhYahuV5QJLfGPiQm4`
+    );
+    const data = await response.json();
+
+    const plant: PlantAPIResponse = data.data;
+
+    return NextResponse.json({
+      id: plant.id,
+      name: plant.common_name || plant.scientific_name,
+      description: plant.family_common_name || "No description available",
+      image: plant.image_url,
+    });
+  } catch (error) {
+    console.error(error);
+    return NextResponse.json({ error: "Failed to fetch plant" }, { status: 500 });
   }
-  return NextResponse.json(plant);
 }

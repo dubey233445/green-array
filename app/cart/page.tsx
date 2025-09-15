@@ -1,19 +1,18 @@
 "use client";
 import { useEffect, useState } from "react";
-import Image from "next/image";   // ✅ this was missing!
+import Image from "next/image";
 
 interface Plant {
   id: number;
-  common_name: string;
+  name: string;
   description: string;
-  default_image: {
-    medium_url: string;
-  };
+  image: string;
 }
 
 export default function CartPage() {
   const [cart, setCart] = useState<Plant[]>([]);
 
+  // Load cart from localStorage
   useEffect(() => {
     const stored = localStorage.getItem("cart");
     if (stored) {
@@ -36,17 +35,22 @@ export default function CartPage() {
               key={plant.id}
               className="bg-white rounded-lg shadow-md p-4 hover:shadow-lg transition"
             >
+              {/* Plant Image */}
               <div className="relative w-full h-40 mb-3">
                 <Image
-                  src={plant.default_image?.medium_url || "/images/placeholder.png"}
-                  alt={plant.common_name}
+                  src={plant.image || "/images/bird.png" || "/images/fiddle.png"}
+                  alt={plant.name || "Unknown Plant"}
                   fill
                   className="rounded-md object-cover"
                 />
               </div>
+
+              {/* Plant Name */}
               <h3 className="text-lg font-bold text-center mb-2">
-                {plant.common_name}
+                {plant.name || "Unnamed Plant"}
               </h3>
+
+              {/* Plant Description */}
               <p className="text-sm text-gray-700 text-center">
                 {plant.description || "No description available."}
               </p>
