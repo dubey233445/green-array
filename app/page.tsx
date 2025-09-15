@@ -3,6 +3,7 @@ import { FormEvent } from "react";
 import Header from "./components/header";
 import Navbar from "./components/Navbar";
 import PlantShowcase from "./components/Products";
+import PlantList from "./components/PlantList";
 
 export default function Home() {
   const handleSubmit = (e: FormEvent) => {
@@ -30,6 +31,7 @@ export default function Home() {
 
       {/* Products Section */}
       <PlantShowcase/>
+
 
       {/* Guidance Section */}
       <section id="guidance" className="p-6 bg-green-100">

@@ -1,52 +1,52 @@
 "use client";
-import { useEffect, useState } from "react";
+import { useState, useEffect } from "react";
 import PlantCard from "./PlantCard";
 
 interface Plant {
-  _id: string;
+  id: string;
   name: string;
   description: string;
   price: number;
 }
 
-export default function PlantListComp() {
+interface CartItem extends Plant {
+  quantity: number;
+}
+
+export default function PlantList() {
   const [plants, setPlants] = useState<Plant[]>([]);
-  const [loading, setLoading] = useState(true);
+
 
   useEffect(() => {
-    const fetchPlants = async () => {
-      const res = await fetch("/plants/list");
-      const data = await res.json();
-      setPlants(data);
-      setLoading(false);
-    };
-
-    fetchPlants();
+    fetch("/api/plants")
+      .then((res) => res.json())
+      .then((data: Plant[]) => setPlants(data));
   }, []);
 
-  return (
-    <div className="min-h-screen bg-green-50 p-6">
-      <h2 className="text-3xl font-bold text-center text-green-800 mb-8">
-        🌿 Plant Listings
-      </h2>
+  const addToCart = async (plant: Plant) => {
+    const res = await fetch("/api/cart", {
+      method: "POST",
+      body: JSON.stringify(plant),
+    });
+  };
 
-      {loading ? (
-        <p className="text-center text-green-700">Loading plants...</p>
-      ) : plants.length > 0 ? (
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 max-w-5xl mx-auto">
-          {plants.map((plant) => (
-            <PlantCard
-            id={plant._id}
-              key={plant._id}
-              name={plant.name}
-              description={plant.description}
-              price={plant.price}
-            />
-          ))}
-        </div>
-      ) : (
-        <p className="text-center text-green-700">No plants available yet.</p>
-      )}
+  return (
+    <div>
+      <h1 className="text-2xl font-bold">Plants</h1>
+      <div className="grid grid-cols-2 gap-4">
+        {plants.map((plant) => (
+          <PlantCard
+            key={plant.id}
+            id={plant.id}
+            name={plant.name}
+            description={plant.description}
+            price={plant.price}
+            onAddToCart={addToCart}
+          />
+        ))}
+      </div>
+
+     
     </div>
   );
 }

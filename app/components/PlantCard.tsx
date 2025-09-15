@@ -1,23 +1,28 @@
-import Link from "next/link";
 import React from "react";
 
-interface PlantCardProps {
+interface Plant {
+  id: string;
   name: string;
   description: string;
   price: number;
-  id:string
 }
 
-export default function PlantCard({ name, description, price,id }: PlantCardProps) {
+interface PlantCardProps extends Plant {
+  onAddToCart: (plant: Plant) => void;
+}
+
+export default function PlantCard({ id, name, description, price, onAddToCart }: PlantCardProps) {
   return (
-    <>
-      <Link href={`/plants/${id}`}>
-    <div className="bg-green-100 p-4 rounded-lg shadow-md hover:shadow-lg transition">
-      <h3 className="text-xl font-bold text-green-800 mb-2">{name}</h3>
-      <p className="text-sm text-green-700 mb-3">{description}</p>
-      <p className="text-green-900 font-semibold">₹ {price}</p>
+    <div className="p-4 border rounded bg-green-50">
+      <h2 className="font-bold">{name}</h2>
+      <p>{description}</p>
+      <p>₹{price}</p>
+      <button
+        className="bg-green-500 text-white px-3 py-1 rounded mt-2"
+        onClick={() => onAddToCart({ id, name, description, price })}
+      >
+        Add to Cart
+      </button>
     </div>
-    </Link>
-    </>
   );
 }

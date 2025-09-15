@@ -14,7 +14,7 @@ export default function AddPlantPage() {
   console.log(token?"token":"not avai");
   
 
-  const res = await fetch("/plants/add", {
+  const res = await fetch("/api/plants/add", {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
