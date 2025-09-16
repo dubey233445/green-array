@@ -13,9 +13,15 @@ export default function PlantListPage() {
   const [plants, setPlants] = useState<Plant[]>([]);
   const [loading, setLoading] = useState(true);
 
+  // ADD THIS:
+  const addToCart = (plant: Plant) => {
+    // Implement cart logic here
+    alert(`${plant.name} added to cart!`);
+  };
+
   useEffect(() => {
     const fetchPlants = async () => {
-      const res = await fetch("/api/plants/list");
+      const res = await fetch("/api/plants");
       const data = await res.json();
       setPlants(data);
       setLoading(false);
@@ -29,14 +35,14 @@ export default function PlantListPage() {
       <h2 className="text-3xl font-bold text-center text-green-800 mb-8">
         🌿 Plant Listings
       </h2>
-
       {loading ? (
         <p className="text-center text-green-700">Loading plants...</p>
       ) : plants.length > 0 ? (
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 max-w-5xl mx-auto">
           {plants.map((plant) => (
             <PlantCard
-            id={plant._id}
+              onAddToCart={()=>{plant._id,plant.name,plant.description,plant.price}}
+              id={plant._id}
               key={plant._id}
               name={plant.name}
               description={plant.description}
