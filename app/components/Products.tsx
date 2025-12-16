@@ -27,7 +27,7 @@ export default function PlantShowcase() {
     try {
       const ids = [1, 2, 3, 4, 5,6,7,8]; // example IDs
       const responses = await Promise.all(
-        ids.map((id) => fetch(`/api/plants/${id}`).then((res) => res.json()))
+        ids.map((id) => fetch(`/api/plants`).then((res) => res.json()))
       );
       setPlants(responses); // ✅ array of plants
     } catch (err) {

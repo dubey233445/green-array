@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 
-interface PlantAPIResponse {
+interface PlantAPIr {
   id: number;
   common_name: string | null;
   scientific_name: string;
@@ -10,27 +10,32 @@ interface PlantAPIResponse {
 
 export async function GET(
   req: NextRequest,
-  { params }: { params: { id: string } }
+   { params }: { params: { id: string } }
 ) {
   try {
-    const { id } = params;
+    const  id  = params?.id;
+    console.log(id)
     console.log("Plant ID:", id);
+     const ids = [1, 2, 3, 4, 5,6,7,8];
+    const r = await Promise.all(
+     ids.map((id) => fetch(`https://trefle.io/api/v1/plants/${id}?token=Xkai9qe3CnSMsosihbGvPKCKxPhYahuV5QJLfGPiQm4s`).then((res) => res.json()))
+      );
 
-    const response = await fetch(
-      `https://trefle.io/api/v1/plants/${id}?token=Xkai9qe3CnSMsosihbGvPKCKxPhYahuV5QJLfGPiQm4`
-    );
+  
+    console.log(r)
 
-    console.log("API URL:", response.url, "Status:", response.status);
 
-    if (!response.ok) {
+    console.log("API URL:", r.url, "Status:", r.status);
+
+    if (!r.ok) {
       return NextResponse.json(
         { error: "Failed to fetch plant details" },
-        { status: response.status }
+        { status: r.status }
       );
     }
 
-    const data = await response.json();
-    const plant: PlantAPIResponse = data.data;
+    const data = await r.json();
+    const plant: PlantAPIr = data.data;
 
     return NextResponse.json({
       id: plant.id,
