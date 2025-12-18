@@ -1,18 +1,20 @@
 import mongoose from "mongoose";
 
-const MONGODB_URI = process.env.MONGODB_URI as string;
-
-if (!MONGODB_URI) {
-  throw new Error("⚠️ Please add MONGODB_URI to .env.local");
-}
-
 let isConnected = false;
 
 export const connectDB = async () => {
   if (isConnected) return;
 
+  const uri = process.env.MONGODB_URI;
+
+  if (!uri) {
+    // Avoid crashing at build-time. Fail fast only when actually trying to connect.
+    console.warn("⚠️ MONGODB_URI is not set. Skipping DB connection.");
+    return;
+  }
+
   try {
-    await mongoose.connect(MONGODB_URI);
+    await mongoose.connect(uri);
     isConnected = true;
     console.log("✅ MongoDB Connected");
   } catch (error) {
