@@ -1,7 +1,6 @@
 import { NextResponse } from "next/server";
 import bcrypt from "bcryptjs";
-import User from "@/models/User";
-import { connectDB } from "@/lib/db";
+import { ensureSupabase } from "@/lib/supabase";
 
 export async function POST(req: Request) {
     try {
@@ -11,19 +10,29 @@ export async function POST(req: Request) {
             return NextResponse.json({ error: "Missing fields" }, { status: 400 });
         }
 
-        await connectDB();
-
-        const existingUser = await User.findOne({ username });
-        if (existingUser) {
+                const sb = ensureSupabase();
+                const { data: existingUser, error: existingErr } = await sb
+                    .from("users")
+                    .select("id")
+                    .eq("username", username)
+                    .maybeSingle();
+                if (existingErr) {
+                        return NextResponse.json({ error: "Database error" }, { status: 500 });
+                }
+                if (existingUser) {
             return NextResponse.json({ error: "User already exists" }, { status: 400 });
         }
 
         const hashedPassword = await bcrypt.hash(password, 10);
 
-        const newUser = new User({ username, password: hashedPassword });
-        await newUser.save();
+                const { error: insertErr } = await sb
+                    .from("users")
+                    .insert({ username, password: hashedPassword });
+                if (insertErr) {
+                        return NextResponse.json({ error: "Failed to create user" }, { status: 500 });
+                }
 
-        return NextResponse.json({ message: "User registered successfully" }, { status: 201 });
+                return NextResponse.json({ message: "User registered successfully" }, { status: 201 });
     } catch (_error) {
         return NextResponse.json({ error: "Internal Server Error" }, { status: 500 });
     }

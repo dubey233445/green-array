@@ -1,8 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
-import User from "@/models/User";
-import { connectDB } from "@/lib/db";
+import { ensureSupabase } from "@/lib/supabase";
 
 export async function POST(req: NextRequest) {
   try {
@@ -12,14 +11,20 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ error: "Missing fields" }, { status: 400 });
     }
 
-    await connectDB();
-
-    const user = await User.findOne({ username });
+    const sb = ensureSupabase();
+    const { data: user, error: userErr } = await sb
+      .from("users")
+      .select("id, username, password")
+      .eq("username", username)
+      .maybeSingle();
+    if (userErr) {
+      return NextResponse.json({ error: "Database error" }, { status: 500 });
+    }
     if (!user) {
       return NextResponse.json({ error: "User not found" }, { status: 400 });
     }
 
-    const isPasswordValid = await bcrypt.compare(password, user.password);
+    const isPasswordValid = await bcrypt.compare(password, user.password as string);
     if (!isPasswordValid) {
       return NextResponse.json({ error: "Invalid credentials" }, { status: 400 });
     }
@@ -33,7 +38,7 @@ export async function POST(req: NextRequest) {
     }
 
     const token = jwt.sign(
-      { id: user._id, username: user.username },
+      { id: user.id, username: user.username },
       secret,
       { expiresIn: "1h" }
     );

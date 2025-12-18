@@ -3,10 +3,11 @@ import { useEffect, useState } from "react";
 import Image from "next/image";
 
 interface Plant {
-  id: number;
+  id: string;
   name: string;
   description: string;
-  image: string;
+  image?: string | null;
+  price: number;
 }
 
 export default function PlantShowcase() {
@@ -21,21 +22,19 @@ export default function PlantShowcase() {
     }
   }, []);
 
-  // Fetch plants from your backend
- useEffect(() => {
-  async function fetchPlants() {
-    try {
-      const ids = [1, 2, 3, 4, 5, 6, 7, 8]; // example IDs
-      const responses = await Promise.all(
-        ids.map(() => fetch(`/api/plants`).then((res) => res.json()))
-      );
-      setPlants(responses); // ✅ array of plants
-    } catch (err) {
-      console.error("Failed to fetch plants", err);
+   // Fetch plants from your backend
+   useEffect(() => {
+    async function fetchPlants() {
+      try {
+        const res = await fetch(`/api/plants`);
+        const data = await res.json();
+        setPlants(data);
+      } catch (err) {
+        console.error("Failed to fetch plants", err);
+      }
     }
-  }
-  fetchPlants();
-}, []);
+    fetchPlants();
+  }, []);
 
 
   // Toggle add/remove from cart
@@ -51,7 +50,7 @@ export default function PlantShowcase() {
     localStorage.setItem("cart", JSON.stringify(updatedCart));
   };
 
-  const isInCart = (id: number) => cart.some((p) => p.id === id);
+  const isInCart = (id: string) => cart.some((p) => p.id === id);
 
   return (
     <section className="p-6">

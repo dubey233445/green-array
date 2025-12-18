@@ -1,5 +1,8 @@
 import mongoose from "mongoose";
 
+// Avoid long buffering timeouts if a query is made without a connection
+mongoose.set("bufferCommands", false);
+
 let isConnected = false;
 
 export const connectDB = async () => {

@@ -1,6 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
-import { connectDB } from "@/lib/db";
-import Plant from "@/models/Plants";
+import { ensureSupabase } from "@/lib/supabase";
 
 export async function POST(req: NextRequest) {
   try {
@@ -10,15 +9,19 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ error: "All fields are required" }, { status: 400 });
     }
 
-    await connectDB();
+    const sb = ensureSupabase();
+    const { data, error } = await sb
+      .from("plants")
+      .insert({ name, description, price })
+      .select()
+      .single();
 
-    const newPlant = new Plant({ name, description, price });
-    await newPlant.save();
+    if (error) {
+      console.error("Supabase insert error:", error);
+      return NextResponse.json({ error: "Failed to add plant" }, { status: 500 });
+    }
 
-    return NextResponse.json(
-      { message: "Plant added successfully", plant: newPlant },
-      { status: 201 }
-    );
+    return NextResponse.json({ message: "Plant added successfully", plant: data }, { status: 201 });
   } catch (error) {
     console.error("Error adding plant:", error);
     return NextResponse.json({ error: "Internal Server Error" }, { status: 500 });
