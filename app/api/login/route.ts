@@ -24,24 +24,34 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ error: "Invalid credentials" }, { status: 400 });
     }
 
+    const secret = process.env.JWT_SECRET;
+    if (!secret) {
+      return NextResponse.json(
+        { error: "JWT secret is not configured" },
+        { status: 500 }
+      );
+    }
+
     const token = jwt.sign(
       { id: user._id, username: user.username },
-      process.env.JWT_SECRET as string,
+      secret,
       { expiresIn: "1h" }
     );
-     
-    req.headers.set("token", token);
-    console.log(
-      req.headers.get("token")
 
+    const res = NextResponse.json(
+      { message: "Login successful", token },
+      { status: 200 }
     );
-  
+    res.cookies.set("token", token, {
+      httpOnly: true,
+      secure: true,
+      sameSite: "lax",
+      maxAge: 60 * 60,
+      path: "/",
+    });
 
-    return NextResponse.json({ message: "Login successful", token }, { status: 200 });
+    return res;
   } catch (err) {
-    if(err){
-
-      return NextResponse.json({ error: "Internal Server Error" }, { status: 500 });
-    }
+    return NextResponse.json({ error: "Internal Server Error" }, { status: 500 });
   }
 }
