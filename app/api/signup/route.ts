@@ -34,6 +34,8 @@ export async function POST(req: Request) {
 
                 return NextResponse.json({ message: "User registered successfully" }, { status: 201 });
     } catch (_error) {
-        return NextResponse.json({ error: "Internal Server Error" }, { status: 500 });
+        const errMsg = _error instanceof Error ? _error.message : String(_error);
+        console.error("Signup API error:", errMsg, _error);
+        return NextResponse.json({ error: errMsg }, { status: 500 });
     }
 }
