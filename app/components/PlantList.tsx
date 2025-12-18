@@ -14,8 +14,21 @@ export default function PlantList() {
 
   useEffect(() => {
     fetch("/api/plants")
-      .then((res) => res.json())
-      .then((data: Plant[]) => setPlants(data));
+      .then((res) => {
+        if (!res.ok) {
+          console.error("Plants API error:", res.status);
+          setPlants([]);
+          return null;
+        }
+        return res.json();
+      })
+      .then((data) => {
+        if (data) setPlants(Array.isArray(data) ? data : []);
+      })
+      .catch((err) => {
+        console.error("Failed to fetch plants", err);
+        setPlants([]);
+      });
   }, []);
 
   const addToCart = async (plant: Plant) => {

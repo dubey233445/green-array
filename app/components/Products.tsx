@@ -27,10 +27,16 @@ export default function PlantShowcase() {
     async function fetchPlants() {
       try {
         const res = await fetch(`/api/plants`);
+        if (!res.ok) {
+          console.error("Plants API error:", res.status);
+          setPlants([]);
+          return;
+        }
         const data = await res.json();
-        setPlants(data);
+        setPlants(Array.isArray(data) ? data : []);
       } catch (err) {
         console.error("Failed to fetch plants", err);
+        setPlants([]);
       }
     }
     fetchPlants();
