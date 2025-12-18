@@ -13,10 +13,8 @@ export default function PlantListPage() {
   const [plants, setPlants] = useState<Plant[]>([]);
   const [loading, setLoading] = useState(true);
 
-  // ADD THIS:
-  const addToCart = (plant: Plant) => {
-    // Implement cart logic here
-    alert(`${plant.name} added to cart!`);
+  const addToCart = () => {
+    alert("Item added to cart!");
   };
 
   useEffect(() => {
@@ -41,7 +39,7 @@ export default function PlantListPage() {
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 max-w-5xl mx-auto">
           {plants.map((plant) => (
             <PlantCard
-              onAddToCart={()=>{plant._id,plant.name,plant.description,plant.price}}
+              onAddToCart={addToCart}
               id={plant._id}
               key={plant._id}
               name={plant.name}

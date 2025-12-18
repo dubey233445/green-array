@@ -9,13 +9,8 @@ interface Plant {
   price: number;
 }
 
-interface CartItem extends Plant {
-  quantity: number;
-}
-
 export default function PlantList() {
   const [plants, setPlants] = useState<Plant[]>([]);
-
 
   useEffect(() => {
     fetch("/api/plants")
@@ -24,7 +19,7 @@ export default function PlantList() {
   }, []);
 
   const addToCart = async (plant: Plant) => {
-    const res = await fetch("/api/cart", {
+    await fetch("/api/cart", {
       method: "POST",
       body: JSON.stringify(plant),
     });

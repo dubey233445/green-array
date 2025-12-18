@@ -25,9 +25,9 @@ export default function PlantShowcase() {
  useEffect(() => {
   async function fetchPlants() {
     try {
-      const ids = [1, 2, 3, 4, 5,6,7,8]; // example IDs
+      const ids = [1, 2, 3, 4, 5, 6, 7, 8]; // example IDs
       const responses = await Promise.all(
-        ids.map((id) => fetch(`/api/plants`).then((res) => res.json()))
+        ids.map(() => fetch(`/api/plants`).then((res) => res.json()))
       );
       setPlants(responses); // ✅ array of plants
     } catch (err) {

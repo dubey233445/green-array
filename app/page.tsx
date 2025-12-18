@@ -3,7 +3,6 @@ import { FormEvent } from "react";
 import Header from "./components/header";
 import Navbar from "./components/Navbar";
 import PlantShowcase from "./components/Products";
-import PlantList from "./components/PlantList";
 
 export default function Home() {
   const handleSubmit = (e: FormEvent) => {
