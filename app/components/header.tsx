@@ -65,32 +65,33 @@ export default function Header() {
   };
 
   return (
-    <header className="bg-green-800 text-white flex items-center justify-between p-4">
+    <header className="bg-green-800 text-white flex items-center justify-between p-3 md:p-4">
       {/* Left: Logo + Brand Name */}
-      <div className="flex items-center space-x-3">
+      <div className="flex items-center space-x-2 md:space-x-3">
         <Image
           src="/logo/image.png"
           alt="GreenArray Logo"
-          width={40}
-          height={40}
+          width={32}
+          height={32}
+          className="md:w-10 md:h-10"
         />
-        <h1 className="text-2xl font-bold">GreenArray</h1>
+        <h1 className="text-lg md:text-2xl font-bold">GreenArray</h1>
       </div>
 
       {/* Right: Auth Section + Cart */}
-      <div className="flex items-center space-x-4 relative">
+      <div className="flex items-center space-x-2 md:space-x-4 relative">
         {/* ✅ Show Cart only if logged in */}
         {isLoggedIn && (
           <Link href="/cart" className="relative">
             <Image
-              src="/images/add-to-cart-svgrepo-com.svg" // put in public/images/cart.png
+              src="/images/add-to-cart-svgrepo-com.svg"
               alt="Cart"
-              width={32}
-              height={32}
-              className="cursor-pointer hover:opacity-80 "
+              width={24}
+              height={24}
+              className="md:w-8 md:h-8 cursor-pointer hover:opacity-80"
             />
             {cartCount > 0 && (
-              <span className="absolute -top-2 -right-2 bg-red-500 text-white text-xs font-bold rounded-full w-5 h-5 flex items-center justify-center">
+              <span className="absolute -top-1 -right-1 md:-top-2 md:-right-2 bg-red-500 text-white text-xs font-bold rounded-full w-4 h-4 md:w-5 md:h-5 flex items-center justify-center">
                 {cartCount}
               </span>
             )}
@@ -103,9 +104,9 @@ export default function Header() {
             <>
               <button
                 onClick={() => setDropdownOpen(!dropdownOpen)}
-                className="flex items-center space-x-2 px-4 py-2 bg-green-700 rounded hover:bg-green-600"
+                className="flex items-center space-x-1 md:space-x-2 px-2 md:px-4 py-1.5 md:py-2 bg-green-700 rounded hover:bg-green-600 text-sm md:text-base"
               >
-                <span>{username}</span>
+                <span className="truncate max-w-[80px] md:max-w-none">{username}</span>
                 <svg
                   className={`w-4 h-4 transform transition-transform ${
                     dropdownOpen ? "rotate-180" : ""
@@ -142,16 +143,16 @@ export default function Header() {
               )}
             </>
           ) : (
-            <div className="space-x-4">
+            <div className="flex space-x-1.5 md:space-x-4">
               <Link
                 href="/signin"
-                className="bg-white text-green-800 px-4 py-2 rounded hover:bg-gray-200"
+                className="bg-white text-green-800 px-2 py-1 md:px-4 md:py-2 rounded hover:bg-gray-200 text-xs md:text-base"
               >
                 Sign In
               </Link>
               <Link
                 href="/signup"
-                className="bg-green-600 text-white px-4 py-2 rounded hover:bg-green-500"
+                className="bg-green-600 text-white px-2 py-1 md:px-4 md:py-2 rounded hover:bg-green-500 text-xs md:text-base"
               >
                 Sign Up
               </Link>

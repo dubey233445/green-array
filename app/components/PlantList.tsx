@@ -39,9 +39,9 @@ export default function PlantList() {
   };
 
   return (
-    <div>
-      <h1 className="text-2xl font-bold">Plants</h1>
-      <div className="grid grid-cols-2 gap-4">
+    <div className="p-4">
+      <h1 className="text-xl md:text-2xl lg:text-3xl font-bold mb-4">Plants</h1>
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
         {plants.map((plant) => (
           <PlantCard
             key={plant.id}

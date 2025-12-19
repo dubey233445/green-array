@@ -1,6 +1,7 @@
 "use client";
 import { useState } from "react";
 import { useRouter } from 'next/navigation'
+import Link from 'next/link'
 
 export default function LoginForm() {
   const [username, setUsername] = useState("");
@@ -32,11 +33,11 @@ export default function LoginForm() {
   };
 
   return (
-    <div className="flex justify-center items-center min-h-screen bg-green-50">
+    <div className="flex justify-center items-center min-h-screen bg-green-50 px-4">
       <form onSubmit={handleSubmit}
-        className="bg-white shadow-md rounded-lg p-8 w-full max-w-md border border-green-200"
+        className="bg-white shadow-md rounded-lg p-6 md:p-8 w-full max-w-md border border-green-200"
       >
-        <h2 className="text-2xl font-bold text-green-800 mb-6 text-center">
+        <h2 className="text-xl md:text-2xl font-bold text-green-800 mb-6 text-center">
           Login
         </h2>
 
@@ -45,7 +46,7 @@ export default function LoginForm() {
           placeholder="Username"
           value={username}
           onChange={(e) => setUsername(e.target.value)}
-          className="w-full p-3 mb-4 border rounded-lg focus:outline-none text-black focus:ring-2 focus:ring-green-600 placeholder-gray-500"
+          className="w-full p-2.5 md:p-3 mb-4 border rounded-lg focus:outline-none text-black focus:ring-2 focus:ring-green-600 placeholder-gray-500 text-sm md:text-base"
           required
         />
 
@@ -54,7 +55,7 @@ export default function LoginForm() {
           placeholder="Password"
           value={password}
           onChange={(e) => setPassword(e.target.value)}
-          className="w-full p-3 mb-4 border rounded-lg text-black focus:outline-none  placeholder-gray-500 focus:ring-2 focus:ring-green-600"
+          className="w-full p-2.5 md:p-3 mb-4 border rounded-lg text-black focus:outline-none  placeholder-gray-500 focus:ring-2 focus:ring-green-600 text-sm md:text-base"
           required
         />
 
@@ -64,6 +65,13 @@ export default function LoginForm() {
         >
           Login
         </button>
+
+        <Link
+          href="/"
+          className="w-full block text-center bg-gray-200 text-gray-800 font-semibold p-3 rounded-lg hover:bg-gray-300 transition"
+        >
+          Back to Home
+        </Link>
 
         {message && (
           <p className="mt-4 text-center text-sm text-green-700">{message}</p>

@@ -19,9 +19,9 @@ export default function Home() {
      <Navbar/>
 
       {/* Home Section */}
-      <section id="home" className="p-6 text-center">
-        <h2 className="text-3xl font-bold mb-3">Welcome to GreenArray</h2>
-        <p className="max-w-2xl mx-auto">
+      <section id="home" className="p-4 md:p-6 lg:p-8 text-center">
+        <h2 className="text-2xl md:text-3xl lg:text-4xl font-bold mb-3">Welcome to GreenArray</h2>
+        <p className="max-w-2xl mx-auto px-4 text-sm md:text-base">
           GreenArray is your one-stop solution for indoor/outdoor plants,
           gardening essentials, seeds, and expert care tips. We believe in
           creating greener homes and a sustainable future.
@@ -33,11 +33,11 @@ export default function Home() {
 
 
       {/* Guidance Section */}
-      <section id="guidance" className="p-6 bg-green-100">
-        <h2 className="text-3xl font-bold mb-4 text-center">
+      <section id="guidance" className="p-4 md:p-6 lg:p-8 bg-green-100">
+        <h2 className="text-2xl md:text-3xl lg:text-4xl font-bold mb-4 text-center">
           Plant Care Guidance
         </h2>
-        <div className="space-y-2 max-w-2xl mx-auto">
+        <div className="space-y-2 max-w-2xl mx-auto px-4 text-sm md:text-base">
           <p>
             🌿 <strong>Watering:</strong> Check soil before watering. Water once
             a week.
@@ -65,11 +65,11 @@ export default function Home() {
       </section>
 
       {/* Contact Section */}
-      <section id="contact" className="p-6 text-center">
-        <h2 className="text-3xl font-bold mb-4">Contact Us</h2>
+      <section id="contact" className="p-4 md:p-6 lg:p-8 text-center">
+        <h2 className="text-2xl md:text-3xl lg:text-4xl font-bold mb-4">Contact Us</h2>
         <form
           onSubmit={handleSubmit}
-          className="flex flex-col gap-4 max-w-md mx-auto"
+          className="flex flex-col gap-4 max-w-md mx-auto px-4"
         >
           <input
             type="text"

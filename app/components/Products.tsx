@@ -59,19 +59,19 @@ export default function PlantShowcase() {
   const isInCart = (id: string) => cart.some((p) => p.id === id);
 
   return (
-    <section className="p-6">
-      <h2 className="text-3xl font-bold text-green-800 mb-6 text-center">
+    <section className="p-4 md:p-6 lg:p-8">
+      <h2 className="text-2xl md:text-3xl lg:text-4xl font-bold text-green-800 mb-6 text-center">
         Plant Collection
       </h2>
 
-      <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
+      <div className="grid gap-4 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
         {plants.map((plant, index) => (
           <div
             key={plant.id ?? `plant-${index}`}
-            className="bg-white rounded-lg shadow-md p-4 hover:shadow-lg transition"
+            className="bg-white rounded-lg shadow-md p-3 md:p-4 hover:shadow-lg transition"
           >
             {/* Plant Image */}
-            <div className="relative w-full h-40 mb-3">
+            <div className="relative w-full h-36 sm:h-40 md:h-48 mb-3">
               <Image
                 src={plant.image || "/images/bird.png"}
                 alt={plant.name || "Unknown Plant"}
@@ -81,19 +81,19 @@ export default function PlantShowcase() {
             </div>
 
             {/* Plant Name */}
-            <h3 className="text-lg font-bold text-center mb-2">
+            <h3 className="text-base md:text-lg font-bold text-center mb-2">
               {plant.name || "Unnamed Plant"}
             </h3>
 
             {/* Plant Description */}
-            <p className="text-sm text-gray-700 text-center mb-3">
+            <p className="text-xs md:text-sm text-gray-700 text-center mb-3 line-clamp-2">
               {plant.description || "No description available."}
             </p>
 
             {/* Add/Remove Button */}
             <button
               onClick={() => toggleCart(plant)}
-              className={`w-full py-2 rounded text-white ${
+              className={`w-full py-1.5 md:py-2 rounded text-white text-sm md:text-base ${
                 isInCart(plant.id) ? "bg-red-500" : "bg-green-500"
               }`}
             >
